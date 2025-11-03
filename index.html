@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manjit Chakraborty - Embedded Systems Engineer</title>
+    <link rel="stylesheet" href="styles.css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #141414;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: background 0.5s ease;
+        }
+
+        .navbar.scrolled {
+            background: #141414;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e50914;
+            letter-spacing: -2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #b3b3b3;
+        }
+
+        /* Hero Section - Netflix Style */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(20,20,20,1) 100%), 
+                        linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            align-items: center;
+            padding: 0 4%;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(229, 9, 20, 0.8);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-description {
+            font-size: 1.3rem;
+            color: #e5e5e5;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-play {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-play:hover {
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        .btn-info {
+            background: rgba(109, 109, 110, 0.7);
+            color: #fff;
+        }
+
+        .btn-info:hover {
+            background: rgba(109, 109, 110, 0.4);
+        }
+
+        /* Row Section - Netflix Style */
+        .row-section {
+            padding: 40px 4%;
+            margin-bottom: 40px;
+        }
+
+        .row-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #e5e5e5;
+        }
+
+        .row-container {
+            position: relative;
+        }
+
+        .row-slider {
+            display: flex;
+            gap: 8px;
+            overflow-x: scroll;
+            scroll-behavior: smooth;
+            padding: 10px 0;
+            scrollbar-width: none;
+        }
+
+        .row-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .card {
+            flex: 0 0 300px;
+            background: #2f2f2f;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: scale(1.1);
+            z-index: 100;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.8);
+        }
+
+        .card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 170px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            font-size: 0.9rem;
+            color: #b3b3b3;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card:hover .card-description {
+            -webkit-line-clamp: 4;
+            line-clamp: 4;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .card-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            color: #e5e5e5;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        .match-score {
+            color: #46d369;
+            font-weight: 600;
+        }
+
+        /* Skills Grid - Netflix Style */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 40px 4%;
+        }
+
+        .skill-card {
+            background: #2f2f2f;
+            padding: 30px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #e50914;
+        }
+
+        .skill-card:hover {
+            background: #3a3a3a;
+            transform: translateY(-5px);
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+        }
+
+        .skill-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .skill-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge:hover {
+            background: #e50914;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: #000;
+            padding: 60px 4%;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.1);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #e50914;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #b3b3b3;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 80px 4%;
+            text-align: center;
+            background: #1a1a1a;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #b3b3b3;
+            margin-bottom: 40px;
+        }
+
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: #2f2f2f;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background: #e50914;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            padding: 40px 4%;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #2f2f2f;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-description {
+                font-size: 1.1rem;
+            }
+            .nav-menu {
+                display: none;
+            }
+            .card {
+                flex: 0 0 250px;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* Scroll Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: #e50914;
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">Manjit Chakraborty</div>
+        <ul class="nav-menu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">EMBEDDED SYSTEMS ENGINEER</div>
+            <h1 class="hero-title">Building Intelligent IoT Solutions</h1>
+            <p class="hero-description">Specializing in embedded systems, computer vision, and IoT development with STM32, ESP32, Raspberry Pi, and Arduino platforms.</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-play">
+                    ▶ View Projects
+                </a>
+                <a href="#contact" class="btn btn-info">
+                    ℹ More Info
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects Row -->
+    <section class="row-section" id="projects">
+        <h2 class="row-title">Featured Projects</h2>
+        <div class="row-container">
+            <div class="row-slider">
+                <div class="card">
+                    <div class="card-image">
+                        🤖
+                        <div class="card-overlay">
+                            <div class="match-score">98% Match</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Smart Vision System</h3>
+                        <div class="card-meta">
+                            <span class="match-score">Featured</span>
+                            <span>2024</span>
+                        </div>
+                        <p class="card-description">Real-time object detection and classification using OpenCV and TensorFlow Lite on Raspberry Pi. Achieved 95% accuracy in production environment.</p>
+                        <div class="card-tags">
+                            <span class="card-tag">Python</span>
+                            <span class="card-tag">OpenCV</span>
+                            <span class="card-tag">RPi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">
+                        📡
+                        <div class="card-overlay">
+                            <div class="match-score">95% Match</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">IoT Sensor Network</h3>
+                        <div class="card-meta">
+                            <span class="match-score">Trending</span>
+                            <span>2024</span>
+                        </div>
+                        <p class="card-description">Distributed sensor network using ESP32 modules with MQTT protocol for real-time environmental monitoring and data aggregation.</p>
+                        <div class="card-tags">
+                            <span class="card-tag">ESP32</span>
+                            <span class="card-tag">C++</span>
+                            <span class="card-tag">MQTT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">
+                        ⚙️
+                        <div class="card-overlay">
+                            <div class="match-score">92% Match</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Motor Control System</h3>
+                        <div class="card-meta">
+                            <span class="match-score">Popular</span>
+                            <span>2023</span>
+                        </div>
+                        <p class="card-description">Precision motor control on STM32 with PID control algorithm for industrial automation applications with sub-millisecond response.</p>
+                        <div class="card-tags">
+                            <span class="card-tag">STM32</span>
+                            <span class="card-tag">C</span>
+                            <span class="card-tag">PID</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">
+                        🏠
+                        <div class="card-overlay">
+                            <div class="match-score">90% Match</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Smart Home Automation</h3>
+                        <div class="card-meta">
+                            <span class="match-score">New</span>
+                            <span>2024</span>
+                        </div>
+                        <p class="card-description">Complete home automation system with voice control, mobile app integration, and energy monitoring using ESP32 and Arduino.</p>
+                        <div class="card-tags">
+                            <span class="card-tag">Arduino</span>
+                            <span class="card-tag">ESP32</span>
+                            <span class="card-tag">Alexa</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">
+                        📸
+                        <div class="card-overlay">
+                            <div class="match-score">94% Match</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Edge AI Camera</h3>
+                        <div class="card-meta">
+                            <span class="match-score">Hot</span>
+                            <span>2024</span>
+                        </div>
+                        <p class="card-description">Edge computing camera system for face recognition and anomaly detection running entirely on Raspberry Pi 4 with TensorFlow Lite.</p>
+                        <div class="card-tags">
+                            <span class="card-tag">Python</span>
+                            <span class="card-tag">CV</span>
+                            <span class="card-tag">AI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">
+                        🔋
+                        <div class="card-overlay">
+                            <div class="match-score">89% Match</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Battery Management System</h3>
+                        <div class="card-meta">
+                            <span class="match-score">Featured</span>
+                            <span>2023</span>
+                        </div>
+                        <p class="card-description">Sophisticated BMS for lithium-ion batteries with real-time monitoring, balancing, and protection features on STM32 microcontroller.</p>
+                        <div class="card-tags">
+                            <span class="card-tag">STM32</span>
+                            <span class="card-tag">C++</span>
+                            <span class="card-tag">CAN Bus</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <h2 class="section-title">Achievements</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">40+</div>
+                <div class="stat-label">Embedded Projects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">IoT Solutions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5+</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100K+</div>
+                <div class="stat-label">Lines of Code</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="row-section" id="skills">
+        <h2 class="row-title">Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">⚡</div>
+                    <div class="skill-name">Programming</div>
+                </div>
+                <div class="skill-items">
+                    <span class="skill-badge">C</span>
+                    <span class="skill-badge">C++</span>
+                    <span class="skill-badge">Python</span>
+                    <span class="skill-badge">Embedded C</span>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">🔧</div>
+                    <div class="skill-name">Hardware</div>
+                </div>
+                <div class="skill-items">
+                    <span class="skill-badge">STM32</span>
+                    <span class="skill-badge">ESP32</span>
+                    <span class="skill-badge">Raspberry Pi</span>
+                    <span class="skill-badge">Arduino</span>
+                    <span class="skill-badge">ESP8266</span>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">📡</div>
+                    <div class="skill-name">IoT Protocols</div>
+                </div>
+                <div class="skill-items">
+                    <span class="skill-badge">MQTT</span>
+                    <span class="skill-badge">I2C</span>
+                    <span class="skill-badge">SPI</span>
+                    <span class="skill-badge">UART</span>
+                    <span class="skill-badge">CAN Bus</span>
+                    <span class="skill-badge">WiFi</span>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">👁️</div>
+                    <div class="skill-name">Computer Vision</div>
+                </div>
+                <div class="skill-items">
+                    <span class="skill-badge">OpenCV</span>
+                    <span class="skill-badge">TensorFlow</span>
+                    <span class="skill-badge">YOLO</span>
+                    <span class="skill-badge">Image Processing</span>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">🛠️</div>
+                    <div class="skill-name">Dev Tools</div>
+                </div>
+                <div class="skill-items">
+                    <span class="skill-badge">VS Code</span>
+                    <span class="skill-badge">Git</span>
+                    <span class="skill-badge">STM32CubeIDE</span>
+                    <span class="skill-badge">PlatformIO</span>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">📚</div>
+                    <div class="skill-name">Frameworks</div>
+                </div>
+                <div class="skill-items">
+                    <span class="skill-badge">FreeRTOS</span>
+                    <span class="skill-badge">HAL</span>
+                    <span class="skill-badge">ESP-IDF</span>
+                    <span class="skill-badge">Arduino Core</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <h2 class="section-title">Let's Connect</h2>
+        <p class="section-subtitle">Ready to collaborate on your next embedded systems project?</p>
+        <div class="contact-grid">
+            <a href="mailto:your.email@example.com" class="contact-btn">
+                <span>📧</span> Email Me
+            </a>
+            <a href="#" class="contact-btn">
+                <span>💼</span> LinkedIn
+            </a>
+            <a href="#" class="contact-btn">
+                <span>🐙</span> GitHub
+            </a>
+            <a href="#" class="contact-btn">
+                <span>📱</span> WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Portfolio. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
